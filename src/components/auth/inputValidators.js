@@ -1,4 +1,7 @@
-import { setFetchedAddresses } from '../../store/AddressStore';
+import {
+  setFetchedAddresses,
+  addressLineModifiedChangeMatchedAddress,
+} from '../../store/AddressStore';
 export const isNonEmpty = value => {
   // console.log(value);
   if (value.length < 1) {
@@ -20,16 +23,17 @@ export const validPassword = value => {
 export const validConfirmPassword = (password, confirmPassword) => {
   return password === confirmPassword;
 };
-export const validPinCode = (pincode, addressEntered) => {
+export const validPinCode = (pincode, addressEntered, index) => {
   return fetch('https://api.postalpincode.in/pincode/' + pincode)
     .then(res => res.json())
     .then(data => {
       // console.log(data);
       // console.log(data[0].Status !== 'Success');
       if (data[0].Status !== 'Success') {
+        setFetchedAddresses([], addressEntered, index);
         return false;
       }
-      setFetchedAddresses(data[0].PostOffice, addressEntered);
+      setFetchedAddresses(data[0].PostOffice, addressEntered, index);
       return true;
     })
     .catch(err => {
@@ -37,7 +41,14 @@ export const validPinCode = (pincode, addressEntered) => {
       return false;
     });
 };
-
+export const validAddress = (addressEntered, index) => {
+  // console.log(addressEntered);
+  addressLineModifiedChangeMatchedAddress(addressEntered, index);
+  if ((addressEntered.address1 + addressEntered.address2).trim().length > 0) {
+    return true;
+  }
+  return false;
+};
 export const validPhoneNumber = value => {
   if (value.trim().length === 10) return true;
   return false;

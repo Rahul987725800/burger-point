@@ -2,15 +2,15 @@
   import Input from './Input.svelte';
   import Button from '../../shared/Button.svelte';
   import AuthStore from '../../store/AuthStore';
-
+  import AddressStore from '../../store/AddressStore';
   import {
     validEmail,
     validPassword,
     validConfirmPassword,
     isNonEmpty,
-    validPinCode,
     validPhoneNumber,
   } from './inputValidators.js';
+  import AddressInput from './AddressInput.svelte';
 
   let fields = {
     username: {
@@ -68,57 +68,16 @@
       isValid: false,
       showErrorMessage: false,
     },
-    address1: {
-      label: 'Address line 1 :',
-      id: 'address1',
-      type: 'text',
-      value: '',
-      error: '',
-      errmsg: "Address can't be empty",
-      validator: isNonEmpty,
-      isValid: false,
-      showErrorMessage: false,
-    },
-    address2: {
-      label: 'Address line 2 (optional) :',
-      id: 'address2',
-      type: 'text',
-      value: '',
-    },
-    pincode: {
-      label: 'Pin Code :',
-      id: 'pin-code',
-      type: 'number',
-      value: '',
-      error: '',
-      errmsg: 'Please enter a valid pin code',
-      validator: async pincode => {
-        const result = await validPinCode(
-          pincode,
-          fields.address1.value + fields.address2.value
-        );
-        // console.log(result);
-        return result;
-      },
-      isValid: false,
-      showErrorMessage: false,
-    },
-    addressDropdown: {
-      label: 'Select Address :',
-      id: 'address-dropdown',
-    },
   };
   $: allFieldsValid =
     fields.username.isValid &&
     fields.email.isValid &&
     fields.confirmPassword.isValid &&
-    fields.phone.isValid &&
-    fields.address1.isValid &&
-    fields.pincode.isValid;
-  const validateField = async fieldName => {
+    fields.phone.isValid;
+  const validateField = fieldName => {
     if (fields[fieldName].validator) {
       let field = fields[fieldName];
-      field.isValid = await field.validator(field.value);
+      field.isValid = field.validator(field.value);
       if (!field.isValid) {
         field.error = field.errmsg;
       } else {
@@ -128,23 +87,33 @@
       fields[fieldName] = field;
     }
   };
-
-  const submitHandler = () => {
-    // console.log(fields);
-    AuthStore.loginOrSignup(
-      {
-        username: fields.username.value,
-        email: fields.email.value,
-        password: fields.password.value,
-      },
-      true
-    );
+  let validateAddressFields = false;
+  const submitHandler = validityCheck => {
+    console.log('submit called', validityCheck);
+    if (validityCheck) {
+      AuthStore.loginOrSignup(
+        {
+          username: fields.username.value,
+          email: fields.email.value,
+          password: fields.password.value,
+          phone: fields.phone.value,
+          addresses: $AddressStore.matchedAddress,
+        },
+        true
+      );
+    } else {
+      for (let field in fields) {
+        validateField(field);
+        fields[field].showErrorMessage = true;
+      }
+      validateAddressFields = true;
+    }
   };
 </script>
 
 <!-- html -->
 <div>
-  <form on:submit|preventDefault={submitHandler}>
+  <form on:submit|preventDefault>
     {#each Object.keys(fields) as field, i (field)}
       <!-- autofocus={i === 0} didn't used it here since change handler is not called if we autofocus and then remove focus -->
       <Input
@@ -163,8 +132,15 @@
         }}
       />
     {/each}
-
-    <Button type="success" disabled={!allFieldsValid}>Sign up</Button>
+    <AddressInput index={0} {validateAddressFields} />
+    <Button
+      type="success"
+      on:click={() => {
+        submitHandler(allFieldsValid && $AddressStore.matchedAddress[0].isValid);
+      }}
+    >
+      Sign up
+    </Button>
   </form>
 </div>
 

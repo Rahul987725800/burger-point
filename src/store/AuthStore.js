@@ -55,6 +55,7 @@ let setUser = user => {
   });
 };
 let loginOrSignup = async (data, signup) => {
+  console.log(data);
   authStartLoading();
   const apiKey = 'AIzaSyA2_eRIKICtL_MeRGn2aFJvSZB87djxas4';
   const authData = {
