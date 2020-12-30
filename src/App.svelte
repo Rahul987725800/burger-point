@@ -13,7 +13,7 @@
   import UserProfile from './containers/UserProfile.svelte';
   import Navigation from './containers/Navigation.svelte';
   import OrderConfirmation from './containers/OrderConfirmation.svelte';
-  import EditProfile from './containers/EditProfile.svelte';
+  import EditProfile from './components/auth/EditProfile.svelte';
   let loading = true;
   let loadingMessage = '';
   onMount(async () => {

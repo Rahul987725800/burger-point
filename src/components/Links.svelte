@@ -32,7 +32,9 @@
       activeLink.set(links.home);
     }}
   >Logout</button>
-  <div style="flex: 1;" />
+  {#if !isMobile}
+    <div style="flex: 1;" />
+  {/if}
   <button
     class:isMobile
     on:click={() => activeLink.set(links.userProfile)}
@@ -58,9 +60,13 @@
       border-bottom: 1px solid white;
     }
     &.isMobile {
+      max-height: 6rem;
+      width: 60%;
+      font-size: 1.5rem;
+      flex: 1;
       color: rgb(233, 213, 255);
-      padding: 1rem;
-      border-bottom: 1px solid white;
+      border-bottom: 0.2px solid white;
+      border-top: 0.2px solid white;
       &.active {
         color: white;
       }

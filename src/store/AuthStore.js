@@ -18,7 +18,7 @@ let authSuccess = (token, userId) => {
     state.loading = false;
     return state;
   });
-  activeLink.set(links.home);
+  activeLink.set(links.editProfile);
 };
 let authFail = error => {
   update(state => {
@@ -54,8 +54,19 @@ let setUser = user => {
     return state;
   });
 };
+let setUpdatedDetails = data => {
+  update(state => {
+    state.user = {
+      ...state.user,
+      ...data,
+    };
+    // console.log('user updated');
+    // console.log(state.user);
+    return state;
+  });
+};
 let loginOrSignup = async (data, signup) => {
-  console.log(data);
+  // console.log(data);
   authStartLoading();
   const apiKey = 'AIzaSyA2_eRIKICtL_MeRGn2aFJvSZB87djxas4';
   const authData = {
@@ -129,17 +140,22 @@ const authCheckState = async () => {
   }
 };
 const registerUser = (userId, data) => {
-  return fetch('https://svelte-burger-default-rtdb.firebaseio.com/users.json', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      userId,
-      email: data.email,
-      username: data.username,
-    }),
-  })
+  return fetch(
+    'https://svelte-burger-default-rtdb.firebaseio.com/users/' +
+      userId +
+      '.json',
+    {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...data,
+        password: null,
+        confirmPassword: null,
+      }),
+    }
+  )
     .then(res => res.json())
     .then(data => {
       // console.log(data);
@@ -148,14 +164,38 @@ const registerUser = (userId, data) => {
     .catch(err => console.log(err));
 };
 const fetchUser = userId => {
-  const queryParams = `?orderBy="userId"&equalTo="${userId}"&limitToFirst=1`;
+  // const queryParams = `?orderBy="userId"&equalTo="${userId}"&limitToFirst=1`;
   return fetch(
-    'https://svelte-burger-default-rtdb.firebaseio.com/users.json' + queryParams
+    'https://svelte-burger-default-rtdb.firebaseio.com/users/' +
+      userId +
+      '.json'
   )
     .then(res => res.json())
     .then(data => {
-      // console.log(data[Object.keys(data)[0]]);
-      setUser(data[Object.keys(data)[0]]);
+      // console.log(data);
+      setUser(data);
+    })
+    .catch(err => console.log(err));
+};
+const updateUser = data => {
+  // console.log(data);
+  // console.log(initialState.userId);
+  return fetch(
+    'https://svelte-burger-default-rtdb.firebaseio.com/users/' +
+      initialState.userId +
+      '.json',
+    {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        ...data,
+      }),
+    }
+  )
+    .then(res => res.json())
+    .then(data => {
+      // console.log(data);
+      setUpdatedDetails(data);
     })
     .catch(err => console.log(err));
 };
@@ -165,4 +205,5 @@ export default {
   authCheckState,
   logout,
   dismissError,
+  updateUser,
 };

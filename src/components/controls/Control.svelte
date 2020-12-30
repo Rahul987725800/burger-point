@@ -15,11 +15,11 @@
   <div class="name">{type}</div>
   <div class="count">{$burgerStore.ingredients[type]}</div>
   <div class="buttons">
-    <button on:click={add}>+</button>
     <button
       on:click={remove}
       class:disabled={$burgerStore.ingredients[type] === 0}
-    >-</button>
+    >Less</button>
+    <button on:click={add}>More</button>
   </div>
 </div>
 
@@ -35,28 +35,28 @@
   .name {
     text-transform: capitalize;
     flex: 1;
+    font-style: italic;
   }
   .count {
     flex: 1;
   }
-  button {
-    font-size: 1.3rem;
-    margin: 0 0.5rem;
-    border: none;
-    line-height: 1;
-    width: 3rem;
-    border: 1px solid var(--theme-color);
-    &:hover {
-      color: black;
-      cursor: pointer;
+  .buttons {
+    button {
+      margin: 0 0.5rem;
+      border: none;
+      line-height: 1;
+      width: 4rem;
       background-color: var(--theme-color-extra-light);
-      border-color: var(--theme-color-dark);
-    }
-    &.disabled {
-      opacity: 0.5;
+      border: 1px solid white;
+      transition: all 0.2s;
+      cursor: pointer;
       &:hover {
+        border-color: var(--theme-color);
+      }
+      &.disabled {
+        opacity: 0.5;
+
         cursor: not-allowed;
-        border: none;
       }
     }
   }

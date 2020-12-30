@@ -35,7 +35,7 @@
 <!-- html -->
 <div>
   {#if loading}
-    <Loader {loadingMessage} />
+    <Loader {loadingMessage} isFixedAtCenter={true} />
   {/if}
   {#if error}
     <Message type="danger" on:close={AuthStore.dismissError}>{error}</Message>

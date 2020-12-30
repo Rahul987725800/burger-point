@@ -2,7 +2,7 @@
   import Input from './Input.svelte';
   import Button from '../../shared/Button.svelte';
   import AuthStore from '../../store/AuthStore';
-  import AddressStore from '../../store/AddressStore';
+  import AddressStore, { resetAddressState } from '../../store/AddressStore';
   import {
     validEmail,
     validPassword,
@@ -72,6 +72,7 @@
   $: allFieldsValid =
     fields.username.isValid &&
     fields.email.isValid &&
+    fields.password.isValid &&
     fields.confirmPassword.isValid &&
     fields.phone.isValid;
   const validateField = fieldName => {
@@ -89,14 +90,17 @@
   };
   let validateAddressFields = false;
   const submitHandler = validityCheck => {
-    console.log('submit called', validityCheck);
+    // console.log('submit called', validityCheck);
+    if (addAddressLater) {
+      resetAddressState();
+    }
     if (validityCheck) {
       AuthStore.loginOrSignup(
         {
           username: fields.username.value,
           email: fields.email.value,
           password: fields.password.value,
-          phone: fields.phone.value,
+          phones: [fields.phone.value],
           addresses: $AddressStore.matchedAddress,
         },
         true
@@ -109,6 +113,7 @@
       validateAddressFields = true;
     }
   };
+  let addAddressLater = false;
 </script>
 
 <!-- html -->
@@ -132,11 +137,26 @@
         }}
       />
     {/each}
-    <AddressInput index={0} {validateAddressFields} />
+    <p>
+      Add Address later instead :
+      <input
+        id="addroptout"
+        type="checkbox"
+        on:click={e => {
+          // console.log(e.target.checked);
+          addAddressLater = e.target.checked;
+        }}
+      />
+    </p>
+
+    {#if !addAddressLater}
+      <AddressInput index={0} {validateAddressFields} />
+    {/if}
+
     <Button
       type="success"
       on:click={() => {
-        submitHandler(allFieldsValid && $AddressStore.matchedAddress[0].isValid);
+        submitHandler(allFieldsValid && (addAddressLater || $AddressStore.matchedAddress[0].isValid));
       }}
     >
       Sign up
@@ -153,7 +173,7 @@
   }
   @media (max-width: 900px) {
     form {
-      width: 80%;
+      width: 90%;
     }
   }
 </style>

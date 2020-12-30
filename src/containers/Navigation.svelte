@@ -1,8 +1,8 @@
 <script>
   import { isMobile } from 'mobile-device-detect';
   import Links from '../components/Links.svelte';
-  import { slide } from 'svelte/transition';
   import activeLink from '../store/RouterStore';
+  import { links } from '../utils';
   let showDrawer = false;
 
   activeLink.subscribe(l => {
@@ -24,15 +24,26 @@
       <div />
     </div>
     <div style="flex: 1;" />
-    <img src="/favicon.png" alt="logo" />
+    <img
+      src="/favicon.png"
+      alt="logo"
+      on:click={() => activeLink.set(links.home)}
+    />
   {:else}
-    <img src="/favicon.png" alt="logo" />
+    <img
+      src="/favicon.png"
+      alt="logo"
+      on:click={() => activeLink.set(links.home)}
+    />
     <Links />
   {/if}
 </div>
 {#if showDrawer}
-  <div class="drawer" in:slide>
+  <div class="drawer">
+    <p><span on:click={toggleDrawer}>&#10005;</span></p>
     <Links {isMobile} />
+    <p />
+    <p />
   </div>
 {/if}
 
@@ -60,9 +71,26 @@
     }
   }
   .drawer {
-    background-color: var(--theme-color);
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: rgb(124, 68, 177);
     display: flex;
     flex-direction: column;
-    border-top: 1px solid white;
+    align-items: center;
+    justify-content: start;
+    p {
+      padding-left: 4rem;
+      padding-top: 1rem;
+      text-align: left;
+      width: 100%;
+      span {
+        color: white;
+        font-size: 1.5rem;
+      }
+    }
   }
 </style>

@@ -86,7 +86,7 @@
   }
   @media (max-width: 900px) {
     form {
-      width: 80%;
+      width: 90%;
     }
   }
 </style>

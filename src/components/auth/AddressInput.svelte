@@ -4,6 +4,7 @@
   import { validAddress, validPinCode } from './inputValidators.js';
   export let index;
   export let validateAddressFields;
+  let matchedAddress = $AddressStore.matchedAddress[index];
 
   $: if (validateAddressFields) {
     // console.log('validation called');
@@ -33,18 +34,18 @@
     address1: {
       label: 'Address line 1 :',
       id: 'address-line1-' + index,
-      value: '',
+      value: matchedAddress ? matchedAddress.inputAddress.address1 : '',
     },
     address2: {
       label: 'Address line 2 :',
       id: 'address-line2-' + index,
-      value: '',
+      value: matchedAddress ? matchedAddress.inputAddress.address2 : '',
     },
     pincode: {
       label: 'Pin Code :',
-      id: 'pin-code',
+      id: 'pin-code-' + index,
       type: 'number',
-      value: '',
+      value: matchedAddress ? matchedAddress.Pincode : '',
       error: '',
       errmsg: 'Please enter a valid pin code',
       validator: async () => {
@@ -135,11 +136,12 @@
 <div class="form-field">
   <label for={'address-dropdown' + index}>Select Address :</label>
   <!-- svelte-ignore a11y-autofocus -->
-  {#if $AddressStore.matchedAddress[index]}
+  {#if $AddressStore.matchedAddress[index] && $AddressStore.fetchedAddresses[index]}
     <select
       bind:value={$AddressStore.matchedAddress[index]}
       on:blur={() => {
         $AddressStore.matchedAddress[index].isManuallySelected = true;
+        validateAddress();
         // console.log($AddressStore.matchedAddress[index]);
       }}
       id={'address-dropdown' + index}
@@ -155,7 +157,11 @@
         </option>
       {/each}
     </select>
-  {:else}<span>Please enter Pin Code to select address.</span>{/if}
+  {:else}
+    <select class="address-dropdown">
+      <option>Please enter pincode to select address</option>
+    </select>
+  {/if}
 </div>
 
 <!-- /html -->

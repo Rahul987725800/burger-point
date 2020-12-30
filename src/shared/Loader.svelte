@@ -1,10 +1,11 @@
 <script>
   export let loadingMessage = '';
   export let error = false;
+  export let isFixedAtCenter = false;
 </script>
 
 <!-- html -->
-<div class="loader">
+<div class="loader" class:isFixedAtCenter>
   <div class="lds-roller">
     <div />
     <div />
@@ -26,6 +27,9 @@
     border-radius: 5px;
     padding: 1rem;
     z-index: 1;
+  }
+  .isFixedAtCenter {
+    position: fixed;
   }
   .error {
     color: rgb(228, 0, 0);

@@ -16,6 +16,8 @@ export const validEmail = value => {
 };
 export const validPassword = value => {
   if (value.length < 5) {
+    // we want it to be 6 later since this is minimum length of password
+    // for firebase
     return false;
   }
   return true;
@@ -50,6 +52,8 @@ export const validAddress = (addressEntered, index) => {
   return false;
 };
 export const validPhoneNumber = value => {
+  if (value.startsWith('0') || value.startsWith('+')) return false;
+  if (!+value) return false;
   if (value.trim().length === 10) return true;
   return false;
 };

@@ -14,10 +14,13 @@
     border-radius: 0.3rem;
     outline: none;
     border: none;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .primary {
     color: white;
-    background-color: rgb(27, 97, 189);
+    background-color: var(--theme-color);
   }
   .secondary {
     color: white;
