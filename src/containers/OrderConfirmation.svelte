@@ -5,20 +5,29 @@
   import activeLink from '../store/RouterStore';
   import { links } from '../utils';
   import Loader from '../shared/Loader.svelte';
+  import Burger from '../components/burger/Burger.svelte';
+  import Button from '../shared/Button.svelte';
+  import EditProfile from '../components/auth/EditProfile.svelte';
+  import EditContainer from '../shared/EditContainer.svelte';
 
   let loading = false;
   let loadingMessage = '';
   let error = false;
+  let deliverTypes = ['normal', 'priority', 'express'];
+  let deliveryMethod = 'normal';
+
   const confirmOrderHandler = () => {
     loading = true;
     error = false;
     loadingMessage = 'Placing your order...';
     OrdersStore.sendOrder($AuthStore.token, $AuthStore.userId, {
       ingredients: $BurgerStore.ingredients,
-      delivery: 'priority',
+      delivery: deliveryMethod,
       time: new Date(),
-      phone: ['9877'],
-      address: 'some address',
+      phone: $AuthStore.user.phones[0],
+      address: $AuthStore.user.addresses.filter(
+        addr => addr.isDefault === true
+      )[0],
       user: $AuthStore.user,
     })
       .then(() => {
@@ -40,9 +49,40 @@
 {#if loading}
   <Loader {loadingMessage} {error} />
 {/if}
-<p>Order confirmation page</p>
-<button on:click={confirmOrderHandler}>confirm order</button>
+<div class="container">
+  <h2>Here's your delicious burger!</h2>
+  <div class="burger"><Burger /></div>
+  <div class="edit">
+    <EditProfile isForOrderConfirmation={true} />
+  </div>
+  <EditContainer>
+    <p>Delivery Method:</p>
+    <select bind:value={deliveryMethod}>
+      {#each deliverTypes as dm (dm)}
+        <option value={dm}>{dm.toLocaleUpperCase()}</option>
+      {/each}
+    </select>
+  </EditContainer>
+  <Button on:click={confirmOrderHandler} type="success">Confirm Order</Button>
+</div>
 
 <!-- /html -->
-<style>
+<style lang="scss">
+  .container {
+    text-align: center;
+  }
+
+  .burger {
+    width: 30%;
+    margin: 1rem auto;
+  }
+  .edit {
+    text-align: left;
+  }
+
+  @media (max-width: 900px) {
+    .burger {
+      width: 60%;
+    }
+  }
 </style>

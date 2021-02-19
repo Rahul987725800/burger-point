@@ -70,5 +70,5 @@
     <OrdersDesktop {orders} />
   {/if}
 {:else}
-  <p>No order found</p>
+  <h2 style="text-align: center;">No order found</h2>
 {/if}

@@ -45,3 +45,9 @@ export const largestCommonCharacters = (s1, s2) => {
   // return the max which is at the right bottom corner of the matrix
   return matrix[matrix.length - 1][matrix[0].length - 1];
 };
+export const randomStatus = () => {
+  if (Math.random() > 0.5) {
+    return 'Dispatched';
+  }
+  return 'Shipped';
+};

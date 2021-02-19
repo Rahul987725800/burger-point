@@ -1,10 +1,11 @@
 <script>
   import activeLink from '../../store/RouterStore';
-  import { links } from '../../utils';
+  import { links, randomStatus } from '../../utils';
   import { slide } from 'svelte/transition';
   import { activeOrder } from '../../store/OrdersStore';
 
   export let orders;
+  // console.log(orders);
 </script>
 
 <!-- html -->
@@ -30,22 +31,22 @@
               on:click={() => {
                 order.showDetails = false;
               }}
-            ><span
-                style="position: relative; bottom: .1rem;"
-              >&utrif;</span></button>
+              ><span style="position: relative; bottom: .1rem;">&utrif;</span
+              ></button
+            >
           {:else}
             <button
               on:click={() => {
                 order.showDetails = true;
-              }}
-            >&dtrif;</button>
+              }}>&dtrif;</button
+            >
           {/if}
         </div>
       </div>
       {#if order.showDetails}
         <div class="other-details" in:slide out:slide|local>
-          <p>{order.name}</p>
-          <p>{order.time}</p>
+          <p>Status: {randomStatus()}</p>
+          <p>{new Date(order.time)}</p>
         </div>
       {/if}
     </div>
@@ -99,6 +100,7 @@
       border: 1px solid black;
       width: 80%;
       margin: auto;
+      padding: 1rem;
     }
   }
 </style>

@@ -1,5 +1,7 @@
 <script>
   import { onDestroy } from 'svelte';
+  import Button from '../shared/Button.svelte';
+  import Card from '../shared/Card.svelte';
 
   import AuthStore from '../store/AuthStore';
   import activeLink from '../store/RouterStore';
@@ -13,15 +15,30 @@
 </script>
 
 <!-- html -->
-<p>profile</p>
-<p>{user.username}</p>
-<p>{user.email}</p>
-<button
-  on:click={() => {
-    activeLink.set(links.editProfile);
-  }}
->Edit Profile</button>
+<div class="container">
+  <Card
+    ><div class="contents">
+      <p>Name: {user.username}</p>
+      <p>Email: {user.email}</p>
+    </div>
+  </Card>
+  <div style="text-align: center;">
+    <Button
+      on:click={() => {
+        activeLink.set(links.editProfile);
+      }}>Edit Profile</Button
+    >
+  </div>
+</div>
 
 <!-- /html -->
 <style>
+  .container {
+    width: 80%;
+    margin: auto;
+  }
+  .contents {
+    padding: 2rem;
+    margin: 1rem;
+  }
 </style>

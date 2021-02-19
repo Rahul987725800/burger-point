@@ -2,19 +2,25 @@
   import { onDestroy } from 'svelte';
   import Bun from './Bun.svelte';
   import BurgerStore from '../../store/BurgerStore.js';
-
+  export let localBurgerIngredients = null;
   let ingredients = [];
-  const unsubscribe = BurgerStore.subscribe(state => {
+  const initIngredients = burger => {
     let ings = [];
-    for (let ing in state.ingredients) {
-      for (let i = 0; i < state.ingredients[ing]; i++) {
+    for (let ing in burger) {
+      for (let i = 0; i < burger[ing]; i++) {
         ings.push(ing);
       }
     }
     ingredients = ings;
-  });
-
-  onDestroy(unsubscribe);
+  };
+  if (localBurgerIngredients) {
+    initIngredients(localBurgerIngredients);
+  } else {
+    const unsubscribe = BurgerStore.subscribe(state => {
+      initIngredients(state.ingredients);
+    });
+    onDestroy(unsubscribe);
+  }
 </script>
 
 <!-- html -->

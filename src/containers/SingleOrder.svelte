@@ -1,16 +1,29 @@
 <script>
   import { activeOrder } from '../store/OrdersStore';
+  import Burger from '../components/burger/Burger.svelte';
+  import { randomStatus } from '../utils.js';
   let order = $activeOrder;
   // console.log('order mounted');
+  // console.log(order);
 </script>
 
 <!-- html -->
 <div class="order">
-  <p>Single order details</p>
+  <h1>Order details</h1>
   {#if order}
-    {#each Object.keys(order.ingredients) as ing (ing)}
-      <p>{ing} - {order.ingredients[ing]}</p>
-    {/each}
+    <div class="burger">
+      <Burger localBurgerIngredients={order.ingredients} />
+    </div>
+    <div class="other-details">
+      <p>Status: {randomStatus()}</p>
+      <p>Expected Delivery: 3 days</p>
+      <p>{new Date(order.time)}</p>
+      <p>Phone: {order.phone}</p>
+      <p>Address:</p>
+      <p>Line 1 : {order.address.inputAddress.address1}</p>
+      <p>Line 2 : {order.address.inputAddress.address2}</p>
+      <p>Pincode: {order.address.Pincode}</p>
+    </div>
   {:else}
     <!-- if we reach order through route directly  -->
     <p>No order selected</p>
@@ -18,10 +31,22 @@
 </div>
 
 <!-- /html -->
-<style>
+<style lang="scss">
   .order {
-    width: 50vw;
-    height: 50vh;
-    background-color: white;
+    h1 {
+      text-align: center;
+    }
+  }
+  .burger {
+    width: 30%;
+    margin: 1rem auto;
+  }
+  @media (max-width: 900px) {
+    .burger {
+      width: 60%;
+    }
+  }
+  .other-details {
+    padding: 4rem;
   }
 </style>

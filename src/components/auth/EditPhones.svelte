@@ -37,6 +37,8 @@
 
 <!-- html -->
 <div class="container">
+  <p>&#9733; - Mark as default ;&nbsp;&nbsp; &#10005; - Delete</p>
+
   {#each userPhones as phone, i (phone)}
     <div class="phone">
       <p class="label">Phone {i + 1} :&nbsp;&nbsp;</p>
