@@ -78,12 +78,7 @@
 <style lang="scss">
   div {
     text-align: center;
-    width: 30%;
     margin: auto;
-  }
-  @media (max-width: 900px) {
-    div {
-      width: 90%;
-    }
+    padding: 1rem;
   }
 </style>

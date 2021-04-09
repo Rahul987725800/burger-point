@@ -50,7 +50,8 @@
 <!-- /html -->
 <style lang="scss">
   .navbar {
-    background-color: var(--theme-color);
+    margin-bottom: 5rem;
+    background-color: #0e1e25;
     height: 3rem;
     display: flex;
     padding: 0.5rem 1rem;
@@ -65,7 +66,7 @@
       div {
         width: 40px;
         height: 5px;
-        background-color: var(--theme-color-extra-light);
+        background-color: white;
         margin: 3px 0;
         border-radius: 2px;
       }
@@ -78,7 +79,7 @@
     left: 0;
     min-height: 100vh;
     width: 100vw;
-    background-color: rgb(124, 68, 177);
+    background-color: #0e1e25;
     display: flex;
     flex-direction: column;
     align-items: center;

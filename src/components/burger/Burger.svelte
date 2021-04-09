@@ -36,7 +36,7 @@
 <!-- /html -->
 <style>
   div {
-    height: 45vh;
+    height: 60vh;
     overflow: auto;
   }
 </style>

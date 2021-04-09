@@ -18,7 +18,7 @@ let authSuccess = (token, userId) => {
     state.loading = false;
     return state;
   });
-  activeLink.set(links.userProfile);
+  activeLink.set(links.home);
 };
 let authFail = error => {
   update(state => {

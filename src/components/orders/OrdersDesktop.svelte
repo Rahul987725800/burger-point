@@ -97,7 +97,6 @@
       }
     }
     .other-details {
-      border: 1px solid black;
       width: 80%;
       margin: auto;
       padding: 1rem;

@@ -14,8 +14,11 @@
   import Navigation from './containers/Navigation.svelte';
   import OrderConfirmation from './containers/OrderConfirmation.svelte';
   import EditProfile from './components/auth/EditProfile.svelte';
+  import Footer from './components/Footer.svelte';
   let loading = true;
   let loadingMessage = '';
+  let content;
+
   onMount(async () => {
     loading = true;
     loadingMessage = 'Checking user...';
@@ -34,25 +37,33 @@
 <!-- html -->
 <main>
   <Navigation />
-  {#if loading}
-    <Loader {loadingMessage} />
-  {:else if aLink === links.home}
-    <BurgerBuilder />
-  {:else if aLink === links.orders}
-    <Orders />
-  {:else if aLink === links.auth}
-    <Auth />
-  {:else if aLink === links.order}
-    <SingleOrder />
-  {:else if aLink === links.userProfile}
-    <UserProfile />
-  {:else if aLink === links.editProfile}
-    <EditProfile />
-  {:else if aLink === links.orderConfirmation}
-    <OrderConfirmation />
-  {/if}
+  <div bind:this={content}>
+    {#if loading}
+      <Loader {loadingMessage} />
+    {:else if aLink === links.home}
+      <BurgerBuilder />
+    {:else if aLink === links.orders}
+      <Orders />
+    {:else if aLink === links.auth}
+      <Auth />
+    {:else if aLink === links.order}
+      <SingleOrder />
+    {:else if aLink === links.userProfile}
+      <UserProfile />
+    {:else if aLink === links.editProfile}
+      <EditProfile />
+    {:else if aLink === links.orderConfirmation}
+      <OrderConfirmation />
+    {/if}
+  </div>
+  <div
+    style="min-height: {aLink === links.orders
+      ? window.innerHeight - 300
+      : window.innerHeight - 500}px"
+  />
+  <Footer />
 </main>
 
 <!-- /html -->
-<style>
+<style lang="scss">
 </style>

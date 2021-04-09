@@ -238,12 +238,16 @@
     />
     {#if !isForOrderConfirmation}
       <div class="edit-final-buttons">
-        <Button type={buttonClasses.danger} on:click={discardChangesHandler}>
-          Discard Changes
-        </Button>
-        <Button type={buttonClasses.success} on:click={saveEditingHandler}>
-          Save All Changes
-        </Button>
+        <div>
+          <Button type={buttonClasses.danger} on:click={discardChangesHandler}>
+            Discard Changes
+          </Button>
+        </div>
+        <div>
+          <Button type={buttonClasses.success} on:click={saveEditingHandler}>
+            Save All Changes
+          </Button>
+        </div>
       </div>
     {/if}
   </EditContainer>
@@ -279,6 +283,8 @@
   .edit-final-buttons {
     padding-top: 2rem;
     display: flex;
-    justify-content: space-evenly;
+    div {
+      margin-right: 0.5rem;
+    }
   }
 </style>
