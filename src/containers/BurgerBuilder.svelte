@@ -26,6 +26,14 @@
     width: 50%;
     margin: auto;
   }
+  @media (max-width: 900px) {
+    .burger {
+      width: 50%;
+    }
+    .controls {
+      width: 65%;
+    }
+  }
   @media (max-width: 600px) {
     .burger {
       width: 70%;
@@ -34,6 +42,7 @@
       width: 80%;
     }
   }
+
   .controls,
   .controls {
     background-color: var(--theme-color-light);
