@@ -20,7 +20,7 @@
       <Card>
         <div class="contents">
           <p>Status: {randomStatus()}</p>
-          <p>{new Date(order.time)}</p>
+          <p>Order Date : {new Date(order.time).toLocaleString()}</p>
           <div class="burger">
             <Burger localBurgerIngredients={order.ingredients} />
           </div>

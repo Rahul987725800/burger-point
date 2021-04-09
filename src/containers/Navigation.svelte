@@ -53,10 +53,11 @@
     background-color: var(--theme-color);
     height: 3rem;
     display: flex;
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 1rem;
     align-items: center;
     img {
       max-height: 100%;
+      margin-right: 1rem;
     }
     .bar-icon {
       display: flex;

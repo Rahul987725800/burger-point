@@ -17,7 +17,7 @@
     <div class="other-details">
       <p>Status: {randomStatus()}</p>
       <p>Expected Delivery: 3 days</p>
-      <p>{new Date(order.time)}</p>
+      <p>Order Date : {new Date(order.time).toLocaleString()}</p>
       <p>Phone: {order.phone}</p>
       <p>Address:</p>
       <p>Line 1 : {order.address.inputAddress.address1}</p>

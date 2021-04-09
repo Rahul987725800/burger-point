@@ -56,10 +56,17 @@
       );
     }
   };
+  const dummyUser = () => {
+    fields.email.value = 'dummy@gmail.com';
+    fields.password.value = '123456';
+  };
 </script>
 
 <!-- html -->
 <div>
+  <Button type="warning" on:click={dummyUser}
+    >Fill Dummy User Credentials</Button
+  >
   <form on:submit|preventDefault>
     {#each Object.keys(fields) as field, i (field)}
       <Input
