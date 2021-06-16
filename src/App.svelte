@@ -37,7 +37,7 @@
 <!-- html -->
 <main>
   <Navigation />
-  <div bind:this={content}>
+  <div class="content" bind:this={content}>
     {#if loading}
       <Loader {loadingMessage} />
     {:else if aLink === links.home}
@@ -56,14 +56,15 @@
       <OrderConfirmation />
     {/if}
   </div>
-  <div
-    style="min-height: {aLink === links.orders
-      ? window.innerHeight - 300
-      : window.innerHeight - 500}px"
-  />
+
   <Footer />
 </main>
 
 <!-- /html -->
 <style lang="scss">
+  .content {
+    min-height: 100vh;
+    margin: 5rem 0;
+    /* border: 10px solid red; */
+  }
 </style>

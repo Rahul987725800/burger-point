@@ -50,7 +50,6 @@
 <!-- /html -->
 <style lang="scss">
   .navbar {
-    margin-bottom: 5rem;
     background-color: #0e1e25;
     height: 3rem;
     display: flex;

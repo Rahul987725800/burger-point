@@ -59,13 +59,14 @@
   const dummyUser = () => {
     fields.email.value = 'dummy@gmail.com';
     fields.password.value = '123456';
+    submitHandler();
   };
 </script>
 
 <!-- html -->
 <div>
   <Button type="warning" on:click={dummyUser}
-    >Fill Dummy User Credentials</Button
+    >Sign In as Dummy user for testing</Button
   >
   <form on:submit|preventDefault>
     {#each Object.keys(fields) as field, i (field)}
